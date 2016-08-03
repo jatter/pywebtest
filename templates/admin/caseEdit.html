@@ -1,0 +1,25 @@
+$def with (tplData)
+$:tplData['render'].header()
+<form action="$makeUrl('testcase','modify')" method="post">
+    <table width="750" border="0" cellspacing="0" cellpadding="1" class="addtable">
+        <tr>
+            <td width="100" scope="col">用例名:</td>
+            <td width="608" scope="col"><input name="casename" type="text" id="casename" value="$:tplData['atl']['CASE_NAME']" /></td>
+        </tr>
+        <tr>
+            <td width="100" scope="col">导出文件名:</td>
+            <td width="608" scope="col"><input name="filename" type="text" id="filename" value="$:tplData['atl']['FILE_NAME']" /></td>
+        </tr>
+        <tr>
+            <td width="100" scope="col">页面url:</td>
+            <td width="608" scope="col"><input name="pageurl" type="text" id="pageurl" value="$:tplData['atl']['PAGE_URL']" /></td>
+        </tr>
+
+        <tr>
+            <td colspan="2" scope="col">
+                <input name="id" type="hidden" value="$:tplData['atl']['CASE_ID']"/>
+                <input type="submit" name="submit" value="保存" id="submits" onclick="instance.post();" /></td>
+        </tr>
+    </table>
+</form>
+$:tplData['render'].footer()

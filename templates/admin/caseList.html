@@ -1,0 +1,25 @@
+$def with (tplData)
+$:tplData['render'].header()
+    <h2>测试用例管理 <a href="$makeUrl('testcase','add',{})">添加</a></h2>
+<table width="800" border="0" cellspacing="0" cellpadding="1" class="list">
+    <tr>
+        <th>ID</th>
+        <th>用例名</th>
+        <th>导出文件名</th>
+        <th>页面url</th>
+        <th>管理</th>
+    </tr>
+$for i in tplData['caseList']:
+    <tr> <td>$:i['CASE_ID'] </td> <td>$:i['CASE_NAME']</td><td>$:i['FILE_NAME']</td><td>$:i['PAGE_URL']</td>
+        <td>
+            <a href="$makeUrl('index','show',{'id':i['CASE_ID']})" >查看</a>
+             |
+            <a href="$makeUrl('testcase','edit',{'id':i['CASE_ID']})" >编辑</a>
+            | <a href="$makeUrl('testcase','delete',{'id':i['CASE_ID']})" onclick="return confirm('确认删除？')">删除</a>
+        </td>
+    </tr>
+</table>
+<nav class="navigation">
+    $:tplData['pageString']
+</nav>
+$:tplData['render'].footer()
