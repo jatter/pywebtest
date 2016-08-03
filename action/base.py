@@ -15,7 +15,8 @@ class base:
             'webTitle' : self.settings.WEB_TITLE,
             'webUrl' : self.settings.WEB_URL,
             'webDescription' : self.settings.WEB_DESCRIPTION,
-            'statusList':self.settings.STATUS_LIST
+            'statusList':self.settings.STATUS_LIST,
+            'typeList': self.settings.TYPE_LIST
         }
         self.globalsTplFuncs = {}
         self.tplDir = ''

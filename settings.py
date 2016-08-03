@@ -16,6 +16,7 @@ ADMIN_PASSWORD='tao'
 DEFAULT_PATH='/index/index'
 DEBUG_SWITCH=True
 STATUS_LIST = {1:'发布',0:'草稿'}
+TYPE_LIST = {1:'文本框',2:'单选框',3:'复选框'}
 
 #路径信息
 ROOT_PATH=os.getcwd()+'/'

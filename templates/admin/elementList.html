@@ -1,0 +1,26 @@
+$def with (tplData)
+$:tplData['render'].header()
+    <h2>页面元素管理 <a href="$makeUrl('pageElement','add',{})">添加</a></h2>
+<table width="800" border="0" cellspacing="0" cellpadding="1" class="list">
+    <tr>
+        <th>ID</th>
+        <th>元素类型</th>
+        <th>元素Xpath</th>
+        <th>元素值</th>
+        <th>隶属用例ID</th>
+        <th>管理</th>
+    </tr>
+$for i in tplData['elementList']:
+    <tr> <td>$:i['ELEMENT_ID'] </td> <td>$:i['ELEMENT_TYPE']</td><td>$:i['ELEMENT_XPATH']</td><td>$:i['ELEMENT_VALUE']</td><td>$:i['CASE_ID']</td>
+        <td>
+            <a href="$makeUrl('index','show',{'id':i['ELEMENT_ID']})" >查看</a>
+             |
+            <a href="$makeUrl('pageElement','edit',{'id':i['ELEMENT_ID']})" >编辑</a>
+            | <a href="$makeUrl('pageElement','delete',{'id':i['ELEMENT_ID']})" onclick="return confirm('确认删除？')">删除</a>
+        </td>
+    </tr>
+</table>
+<nav class="navigation">
+    $:tplData['pageString']
+</nav>
+$:tplData['render'].footer()

@@ -1,0 +1,33 @@
+$def with (tplData)
+$:tplData['render'].header()
+<form action="$makeUrl('pageElement','save')" method="post">
+    <table width="750" border="0" cellspacing="0" cellpadding="1" class="addtable">
+        <tr>
+            <td scope="col">元素类型:</td>
+            <td scope="col">
+                <SELECT  name="eletype" id="eletype">
+                $for k,v in tplData['typeList'].items():
+                    <option value="$:k"
+                    $if k == 1:
+                        selected="selected"
+                    >$:v</option>
+            </SELECT>
+        </tr>
+		<tr>
+			<td width="100" scope="col">元素Xpath:</td>
+            <td width="608" scope="col"><input name="elexpath" type="text" id="elexpath" value="" /></td>
+        </tr>
+		<tr>
+			<td width="100" scope="col">元素值:</td>
+            <td width="608" scope="col"><input name="elevalue" type="text" id="elevalue" value="" /></td>
+        </tr>
+        <tr>
+			<td width="100" scope="col">隶属用例ID:</td>
+            <td width="608" scope="col"><input name="caseid" type="text" id="caseid" value="" /></td>
+        </tr>
+        <tr>
+            <td colspan="2" scope="col"><input type="submit" name="submit" value="保存" id="submits" onmclick="instance.post();" /></td>
+        </tr>
+    </table>
+</form>
+$:tplData['render'].footer()
