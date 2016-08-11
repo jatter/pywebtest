@@ -60,7 +60,6 @@ class pageelement(baseAction):
             'ELEMENT_TYPE': userInput['eletype'],
             'ELEMENT_XPATH': userInput['elexpath'],
             'ELEMENT_VALUE': userInput['elevalue'],
-            'CASE_ID': userInput['caseid']
         }
         condition = {'ELEMENT_ID':userInput['id']}
         status = model.pageelement().update(data,condition)

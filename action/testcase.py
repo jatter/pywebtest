@@ -3,6 +3,7 @@
 import web,time
 from action.base import base as baseAction
 import model
+import HTMLParser
 from mako.template import Template
 class testcase(baseAction):
     def __init__(self):
@@ -17,6 +18,7 @@ class testcase(baseAction):
 
     def save(self):
         userInput = self.getInput()
+        html_parser = HTMLParser.HTMLParser()
         date = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         casedata = {
             'CASE_NAME': userInput['casename'],
@@ -40,14 +42,18 @@ class testcase(baseAction):
                 eletype = 1
                 f = open("testcase/" + userInput['filename'], 'a')
                 mytemplate = Template(filename='inputTemplate.txt', output_encoding='utf-8')
-                result = mytemplate.render(elexpath=userInput['elexpath'+m+''], elevalue=userInput['elevalue'+m+''])
+                elelpath1 = userInput['elexpath' + m + '']
+                elepath2 = html_parser.unescape(elelpath1)
+                result = mytemplate.render(elexpath=elepath2, elevalue=userInput['elevalue'+m+''])
                 f.write(result)
                 f.close()
             elif type == u"按钮":
                 eletype = 2
                 f = open("testcase/" + userInput['filename'], 'a')
                 mytemplate = Template(filename='clickTemplate.txt', output_encoding='utf-8')
-                result = mytemplate.render(elexpath=userInput['elexpath' + m + ''])
+                elelpath1 = userInput['elexpath' + m + '']
+                elepath2 = html_parser.unescape(elelpath1)
+                result = mytemplate.render(elexpath=elepath2)
                 f.write(result)
                 f.close()
             elif type == u"单选框":
@@ -57,7 +63,7 @@ class testcase(baseAction):
 
             eledata = {
                 'ELEMENT_TYPE': eletype,
-                'ELEMENT_XPATH': userInput['elexpath'+m+''].encode('utf-8'),
+                'ELEMENT_XPATH': userInput['elexpath'+m+''],
                 'ELEMENT_VALUE': userInput['elevalue'+m+''],
                 'CASE_ID': atl['CASE_ID']
             }
