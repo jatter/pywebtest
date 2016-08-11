@@ -24,6 +24,26 @@ function delCookie(name)//删除cookie
 function backcomment(msg){
 	$mm('content').value=$mm('content').value+"@"+msg;
 }
+//自动添加行
+var row_count = 0;
+function addNew()
+{
+var table1 = $('#table1');
+var firstTr = table1.find('tbody>tr:first');
+var row = $("<tr></tr>");
+var td = $("<td></td>");
+var td1 = $("<td></td>");
+var td2 = $("<td></td>");
+td.append($("<select name='eletype"+row_count+"' id='eletype"+row_count+"'><option value ='文本框'>文本框</option> <option value ='按钮'>按钮</option> <option value ='单选框'>单选框</option> <option value ='复选框'>复选框</option> </select>"));
+td1.append($("<input type='text' name='elexpath"+row_count+"' id='elexpath"+row_count+"' value=''>"));
+td2.append($("<input type='text' name='elevalue"+row_count+"' id='elevalue"+row_count+"' value=''>"));
+row.append(td);
+row.append(td1);
+row.append(td2);
+table1.append(row);
+row_count++;
+}
+
 function $mmajax(){
 	var url=arguments[0]||""; 
 	var queryStr=arguments[1]||""; 

@@ -3,7 +3,7 @@
 import web,time
 from action.base import base as baseAction
 import model
-class pageElement(baseAction):
+class pageelement(baseAction):
     def __init__(self):
         if self.isLogin() != True:
             raise web.seeother('/')
@@ -22,9 +22,9 @@ class pageElement(baseAction):
             'ELEMENT_VALUE': userInput['elevalue'],
             'CASE_ID': userInput['caseid']
         }
-        status = model.pageElement().insert(data)
+        status = model.pageelement().insert(data)
         if status:
-            return self.success('保存成功',self.makeUrl('pageElement','list'))
+            return self.success('保存成功',self.makeUrl('pageelement','list'))
         else:
             return self.error('保存失败')
 
@@ -34,13 +34,13 @@ class pageElement(baseAction):
         settings = self.getSettings()
         count = settings.PER_PAGE_COUNT
         offset= (page-1)*count if page > 0 else 0
-        elementObj = model.pageElement()
+        elementObj = model.pageelement()
         condition = {}
         listData = elementObj.getOne('COUNT(*) AS `total`',condition)
         totalCount = listData['total']
         elementList = elementObj.getList('*',condition,'ELEMENT_ID desc',str(offset)+','+str(count))
         self.assign('elementList',elementList)
-        pageString = self.getPageStr(self.makeUrl('pageElement','list'),page,count,totalCount)
+        pageString = self.getPageStr(self.makeUrl('pageelement','list'),page,count,totalCount)
         self.assign('pageString',pageString)
         return self.display('elementList')
 
@@ -50,7 +50,7 @@ class pageElement(baseAction):
             return self.error('测试用例不存在')
         id=inputParams['id']
         condition={'ELEMENT_ID':str(id)}
-        atl=model.pageElement().getOne('*',condition)
+        atl=model.pageelement().getOne('*',condition)
         self.assign('atl',atl)
         return self.display('elementEdit')
 
@@ -63,9 +63,9 @@ class pageElement(baseAction):
             'CASE_ID': userInput['caseid']
         }
         condition = {'ELEMENT_ID':userInput['id']}
-        status = model.pageElement().update(data,condition)
+        status = model.pageelement().update(data,condition)
         if status:
-            return self.success('修改成功',self.makeUrl('pageElement','list'))
+            return self.success('修改成功',self.makeUrl('pageelement','list'))
         else:
             return self.error('修改失败')
 
@@ -75,8 +75,8 @@ class pageElement(baseAction):
             return self.error('测试用例不存在')
         id=inputParams['id']
         condition={'ELEMENT_ID':str(id)}
-        result=model.pageElement().delete(condition)
+        result=model.pageelement().delete(condition)
         if result:
-            return self.success('删除成功',self.makeUrl('pageElement','list'))
+            return self.success('删除成功',self.makeUrl('pageelement','list'))
         else:
             return self.error('删除失败')

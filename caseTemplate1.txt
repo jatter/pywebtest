@@ -1,0 +1,20 @@
+﻿# -*- coding: utf-8 -*-
+# coding=utf-8
+from pyse import Pyse, TestRunner
+from nose.tools import with_setup
+from time import sleep
+
+
+def my_setup_function():
+    print "test case start:"
+
+
+def my_teardown_function():
+    print "test case end."
+
+
+@with_setup(my_setup_function, my_teardown_function)
+def ${casename}():
+	''' ${casedesc} '''
+driver = Pyse("chrome")
+driver.open("${pageurl}")

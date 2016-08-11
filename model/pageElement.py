@@ -6,6 +6,6 @@ import settings
 from model.base import base as BaseModel
 from utils.function import *
 @singleton
-class pageElement(BaseModel):
+class pageelement(BaseModel):
     def __init__(self):
         pass

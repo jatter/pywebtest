@@ -1,6 +1,6 @@
 $def with (tplData)
 $:tplData['render'].header()
-<form action="$makeUrl('pageelement','save')" method="post">
+<form action="$makeUrl('pageelement','modify')" method="post">
     <table width="750" border="0" cellspacing="0" cellpadding="1" class="addtable">
         <tr>
             <td scope="col">元素类型:</td>
@@ -15,17 +15,18 @@ $:tplData['render'].header()
         </tr>
 		<tr>
 			<td width="100" scope="col">元素Xpath:</td>
-            <td width="608" scope="col"><input name="elexpath" type="text" id="elexpath" value="" /></td>
+            <td width="608" scope="col"><input name="elexpath" type="text" id="elexpath" value="$:tplData['atl']['ELEMENT_XPATH']" /></td>
         </tr>
 		<tr>
 			<td width="100" scope="col">元素值:</td>
-            <td width="608" scope="col"><input name="elevalue" type="text" id="elevalue" value="" /></td>
+            <td width="608" scope="col"><input name="elevalue" type="text" id="elevalue" value="$:tplData['atl']['ELEMENT_VALUE']" /></td>
         </tr>
         <tr>
 			<td width="100" scope="col">隶属用例ID:</td>
-            <td width="608" scope="col"><input name="caseid" type="text" id="caseid" value="" /></td>
+            <td width="608" scope="col"><input name="caseid" type="text" id="caseid" value="$:tplData['atl']['CASE_ID']" /></td>
         </tr>
         <tr>
+            <input name="id" type="hidden" value="$:tplData['atl']['ELEMENT_ID']"/>
             <td colspan="2" scope="col"><input type="submit" name="submit" value="保存" id="submits" onmclick="instance.post();" /></td>
         </tr>
     </table>

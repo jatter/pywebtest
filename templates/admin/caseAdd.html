@@ -1,5 +1,7 @@
 $def with (tplData)
 $:tplData['render'].header()
+<script type="text/javascript" src="$makeUrl('static','default/jquery.min.js')"></script>
+<script type="text/javascript" src="$makeUrl('static','default/bin.js')"></script>
 <form action="$makeUrl('testcase','save')" method="post">
     <table width="750" border="0" cellspacing="0" cellpadding="1" class="addtable">
         <tr>
@@ -10,13 +12,30 @@ $:tplData['render'].header()
 			<td width="100" scope="col">导出文件名称:</td>
             <td width="608" scope="col"><input name="filename" type="text" id="filename" value="" /></td>
         </tr>
+        <tr>
+            <td width="100" scope="col">测试内容说明:</td>
+            <td width="608" scope="col"><input name="casedesc" type="text" id="casedesc" value="" /></td>
+        </tr>
 		<tr>
 			<td width="100" scope="col">页面url:</td>
             <td width="608" scope="col"><input name="pageurl" type="text" id="pageurl" value="" /></td>
         </tr>
         <tr>
-            <td colspan="2" scope="col"><input type="submit" name="submit" value="保存" id="submits" onmclick="instance.post();" /></td>
+			<td width="100" scope="col">需添加元素个数:</td>
+            <td width="608" scope="col"><input name="elenum" type="text" id="elenum" value="" /></td>
         </tr>
     </table>
+    <table id="table1" cellspacing="3" cellpadding="3" border="1">
+        <tbody>
+            <tr>
+                <td width="608" scope="col">元素类型</td>
+                <td width="608" scope="col">元素Xpath</td>
+                <td width="608" scope="col">元素值</td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="button" value="添加页面元素" onclick="return addNew();" style="margin-right: 40px;">
+    <input type="submit" name="submit" value="保存" id="submits" onmclick="instance.post();" />
 </form>
+
 $:tplData['render'].footer()

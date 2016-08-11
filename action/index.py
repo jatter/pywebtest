@@ -15,17 +15,17 @@ class index(baseAction):
         inputParams = self.getInput()
         page = int(inputParams['page']) if inputParams.has_key('page') else 1
         offset= (page-1)*count if page > 0 else 0
-        cmsObj = model.cms()
-        condition = {'status':1}
-        listData = cmsObj.getOne('COUNT(*) AS `total`',condition)
+        caseObj = model.testcase()
+        condition = {}
+        listData = caseObj.getOne('COUNT(*) AS `total`',condition)
         totalCount = listData['total']
-        cmsList = cmsObj.getList('*',condition,'orders desc,createTime desc',str(offset)+','+str(count))
-        self.assign('cmsList',cmsList)
+        caseList = caseObj.getList('*',condition,'CASE_ID desc,CREATE_TIME desc',str(offset)+','+str(count))
+        self.assign('caseList',caseList)
         pageString = self.getPageStr(self.makeUrl('index','index'),page,count,totalCount)
         self.assign('pageString',pageString)
-        commentObj=model.comment()
-        commentList = commentObj.getList('*',{'status':1},'id desc',str(offset)+','+str(count))
-        self.assign('commentList',commentList)
+        elementObj = model.pageelement()
+        elementList = elementObj.getList('*', condition, 'ELEMENT_ID desc', str(offset) + ',' + str(count))
+        self.assign('elementList',elementList)
 
         return self.display('index')
 
@@ -35,18 +35,18 @@ class index(baseAction):
             settings = self.getSettings()
             web.seeother(settings.WEB_URL)
         id=inputParams['id']
-        cmsObj = model.cms()
-        condition = {'status':1,'id':str(id)}
-        atl = cmsObj.getOne('*',condition)
+        caseObj = model.testcase()
+        condition = {}
+        atl = caseObj.getOne('*',condition)
         if atl == None:
             raise web.notfound('not found')
         atl['views']+=1
         updateData = {'views':(atl['views'])}
         #view count incr
-        cmsObj.update(updateData,condition)
-        commentList=model.comment().getList('*',{'status':1,'cmsId':int(id)})
+        caseObj.update(updateData,condition)
+        elementList=model.pageelement().getList('*',{'CASE_ID':int(id)})
         self.assign('atl',atl)
-        self.assign('commentList',commentList)
+        self.assign('elementList',elementList)
         return self.display('show')
     def comment(self):
         userInput= self.getInput()

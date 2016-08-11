@@ -3,6 +3,7 @@
 import web,time
 from action.base import base as baseAction
 import model
+from mako.template import Template
 class testcase(baseAction):
     def __init__(self):
         if self.isLogin() != True:
@@ -17,13 +18,56 @@ class testcase(baseAction):
     def save(self):
         userInput = self.getInput()
         date = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-        data = {
+        casedata = {
             'CASE_NAME': userInput['casename'],
             'FILE_NAME': userInput['filename'],
             'PAGE_URL': userInput['pageurl'],
-            'CREATE_TIME': date,
+            'CREATE_TIME': date
         }
-        status = model.testcase().insert(data)
+        mytemplate = Template(filename='caseTemplate1.txt', output_encoding='utf-8')
+        result = mytemplate.render(pageurl=userInput['pageurl'], casename=userInput['casename'],casedesc=userInput['casedesc'])
+        f = open("testcase/" + userInput['filename'], 'w')
+        f.write(result)
+        f.close()
+        status1 = model.testcase().insert(casedata)
+        condition = {'CASE_NAME': userInput['casename'],'FILE_NAME': userInput['filename'],'PAGE_URL': userInput['pageurl'],}
+        atl = model.testcase().getOne('*', condition)
+        elenum  = int(userInput['elenum'])
+        for i in range(0,elenum):
+            m = str(i)
+            type = userInput['eletype' + m + '']
+            if type == u"文本框":
+                eletype = 1
+                f = open("testcase/" + userInput['filename'], 'a')
+                mytemplate = Template(filename='inputTemplate.txt', output_encoding='utf-8')
+                result = mytemplate.render(elexpath=userInput['elexpath'+m+''], elevalue=userInput['elevalue'+m+''])
+                f.write(result)
+                f.close()
+            elif type == u"按钮":
+                eletype = 2
+                f = open("testcase/" + userInput['filename'], 'a')
+                mytemplate = Template(filename='clickTemplate.txt', output_encoding='utf-8')
+                result = mytemplate.render(elexpath=userInput['elexpath' + m + ''])
+                f.write(result)
+                f.close()
+            elif type == u"单选框":
+                eletype = 3
+            elif type == u"复选框":
+                eletype = 4
+
+            eledata = {
+                'ELEMENT_TYPE': eletype,
+                'ELEMENT_XPATH': userInput['elexpath'+m+''].encode('utf-8'),
+                'ELEMENT_VALUE': userInput['elevalue'+m+''],
+                'CASE_ID': atl['CASE_ID']
+            }
+            status2 = model.pageelement().insert(eledata)
+        status = status1 and status2
+        fadd = open("caseTemplate2.txt",'r')
+        f = open("testcase/"+userInput['filename'], 'a')
+        f.write(fadd.read())
+        fadd.close()
+        f.close()
         if status:
             return self.success('保存成功',self.makeUrl('testcase','list'))
         else:

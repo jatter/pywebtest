@@ -6,4 +6,4 @@ from cms import *
 from base import *
 from comment import *
 from testcase import *
-from pageElement import *
+from pageelement import *
