@@ -1,5 +1,7 @@
 $def with (tplData)
 $:tplData['render'].header()
+<script type="text/javascript" src="$makeUrl('static','default/jquery.min.js')"></script>
+<script type="text/javascript" src="$makeUrl('static','default/bin.js')"></script>
 <form action="$makeUrl('testcase','modify')" method="post">
     <table width="750" border="0" cellspacing="0" cellpadding="1" class="addtable">
         <tr>
@@ -14,11 +16,34 @@ $:tplData['render'].header()
             <td width="100" scope="col">页面url:</td>
             <td width="608" scope="col"><input name="pageurl" type="text" id="pageurl" value="$:tplData['atl']['PAGE_URL']" /></td>
         </tr>
-
+        <tr>
+			<td width="100" scope="col">用例元素个数:</td>
+            <td width="608" scope="col"><input name="elenum" type="text" id="elenum" value="$:tplData['atl']['ELE_NUM']" /></td>
+        </tr>
+    <table id="table1" cellspacing="3" cellpadding="3" border="1">
+        <tbody>
+            <tr>
+                <td width="608" scope="col">元素类型</td>
+                <td width="608" scope="col">元素Xpath</td>
+                <td width="608" scope="col">元素值</td>
+                <td><center>管理</center></td>
+            </tr>
+        $for i in tplData['elelist']:
+            <tr>
+                <td><select value="$:i['ELEMENT_TYPE']"><option value ='文本框'>文本框</option> <option value ='单选框'>单选框</option> <option value ='复选框'>复选框</option> <option value ='按钮'>按钮</option></select></td>
+                <td><input name="elexpath" style="width:300px;" type="text" id="elexpath" value="$:i['ELEMENT_XPATH']" /></td>
+                <td><input name="elevalue" type="text" id="elevalue" value="$:i['ELEMENT_VALUE']" /></td>
+                <!--<td><input type="button" value="删除" onclick="return del(this)"></td>-->
+                <td width="120"><a href="$makeUrl('pageelement','delete',{'id':i['ELEMENT_ID'],'cid':i['CASE_ID']})" onclick="return confirm('确认删除？')">删除</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <input type="button" value="添加页面元素" onclick="return addNew();" style="margin-right: 40px;">
         <tr>
             <td colspan="2" scope="col">
                 <input name="id" type="hidden" value="$:tplData['atl']['CASE_ID']"/>
-                <input type="submit" name="submit" value="保存" id="submits" onclick="instance.post();" /></td>
+                <input type="submit" name="submit" value="保存" id="submits" onclick="instance.post();" />
+            </td>
         </tr>
     </table>
 </form>

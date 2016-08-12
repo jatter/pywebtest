@@ -24,6 +24,7 @@ class testcase(baseAction):
             'CASE_NAME': userInput['casename'],
             'FILE_NAME': userInput['filename'],
             'PAGE_URL': userInput['pageurl'],
+            'ELE_NUM': userInput['elenum'],
             'CREATE_TIME': date
         }
         mytemplate = Template(filename='caseTemplate1.txt', output_encoding='utf-8')
@@ -32,14 +33,13 @@ class testcase(baseAction):
         f.write(result)
         f.close()
         status1 = model.testcase().insert(casedata)
-        condition = {'CASE_NAME': userInput['casename'],'FILE_NAME': userInput['filename'],'PAGE_URL': userInput['pageurl'],}
+        condition = {'CASE_NAME': userInput['casename']}
         atl = model.testcase().getOne('*', condition)
         elenum  = int(userInput['elenum'])
         for i in range(0,elenum):
             m = str(i)
             type = userInput['eletype' + m + '']
             if type == u"文本框":
-                eletype = 1
                 f = open("testcase/" + userInput['filename'], 'a')
                 mytemplate = Template(filename='inputTemplate.txt', output_encoding='utf-8')
                 elelpath1 = userInput['elexpath' + m + '']
@@ -48,7 +48,6 @@ class testcase(baseAction):
                 f.write(result)
                 f.close()
             elif type == u"按钮":
-                eletype = 2
                 f = open("testcase/" + userInput['filename'], 'a')
                 mytemplate = Template(filename='clickTemplate.txt', output_encoding='utf-8')
                 elelpath1 = userInput['elexpath' + m + '']
@@ -56,13 +55,9 @@ class testcase(baseAction):
                 result = mytemplate.render(elexpath=elepath2)
                 f.write(result)
                 f.close()
-            elif type == u"单选框":
-                eletype = 3
-            elif type == u"复选框":
-                eletype = 4
 
             eledata = {
-                'ELEMENT_TYPE': eletype,
+                'ELEMENT_TYPE': type,
                 'ELEMENT_XPATH': userInput['elexpath'+m+''],
                 'ELEMENT_VALUE': userInput['elevalue'+m+''],
                 'CASE_ID': atl['CASE_ID']
@@ -102,7 +97,9 @@ class testcase(baseAction):
         id=inputParams['id']
         condition={'CASE_ID':str(id)}
         atl=model.testcase().getOne('*',condition)
+        elelist = model.pageelement().getList('*',condition)
         self.assign('atl',atl)
+        self.assign('elelist',elelist)
         return self.display('caseEdit')
 
     def modify(self):
@@ -110,7 +107,7 @@ class testcase(baseAction):
         data={
             'CASE_NAME': userInput['casename'],
             'FILE_NAME': userInput['filename'],
-            'PAGE_URL': userInput['pageurl'],
+            'PAGE_URL': userInput['pageurl']
         }
         condition = {'CASE_ID':userInput['id']}
         status = model.testcase().update(data,condition)

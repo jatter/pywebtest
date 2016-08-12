@@ -73,9 +73,10 @@ class pageelement(baseAction):
         if not inputParams.has_key('id') :
             return self.error('测试用例不存在')
         id=inputParams['id']
+        cid=inputParams['cid']
         condition={'ELEMENT_ID':str(id)}
         result=model.pageelement().delete(condition)
         if result:
-            return self.success('删除成功',self.makeUrl('pageelement','list'))
+            return self.success('删除成功',self.makeUrl('testcase','edit',{'id':cid}))
         else:
             return self.error('删除失败')
